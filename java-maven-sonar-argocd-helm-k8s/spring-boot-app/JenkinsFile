@@ -51,10 +51,28 @@ pipeline {
             sh '''
                 git config user.email "bl.en.u4cse22236@bl.students.amrita.edu"
                 git config user.name "m-vp"
-                git checkout main # Checkout the main branch
+                git checkout main
                 BUILD_NUMBER=${BUILD_NUMBER}
+                
+                # Debug existing content of deployment.yml
+                echo "Before sed:"
+                cat java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
+                
+                # Perform replacement
                 sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
-                git add java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
+                
+                # Debug content after modification
+                echo "After sed:"
+                cat java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
+                
+                # Add all files to staging
+                git add -A
+                
+                # Debug: Check staged changes
+                echo "Files staged for commit:"
+                git status
+                
+                # Commit and push
                 git commit -m "Update deployment image to version ${BUILD_NUMBER}"
                 git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
             '''
