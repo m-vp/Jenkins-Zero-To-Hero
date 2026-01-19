@@ -68,12 +68,14 @@
                 </configuration>
             </plugin>
 
-            <!-- ADD SONARQUBE PLUGIN -->
-            <plugin>
-                <groupId>org.sonarsource.scanner.maven</groupId>
-                <artifactId>sonar-maven-plugin</artifactId>
-                <version>3.9.1.2184</version> <!-- You can use a newer version -->
-            </plugin>
+         
+                 <!-- SonarQube Maven Plugin: Downgraded version compatible with Java 11 -->
+                 <plugin>
+                     <groupId>org.sonarsource.scanner.maven</groupId>
+                     <artifactId>sonar-maven-plugin</artifactId>
+                     <version>3.7.0.1746</version>
+                 </plugin>
+
 
         </plugins>
     </build>
