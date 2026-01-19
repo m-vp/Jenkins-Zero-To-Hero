@@ -68,8 +68,22 @@
                 </configuration>
             </plugin>
 
+            <!-- ADD SONARQUBE PLUGIN -->
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>3.9.1.2184</version> <!-- You can use a newer version -->
+            </plugin>
+
         </plugins>
     </build>
 
+    <repositories>
+        <!-- Optional: Sonar repository for faster resolution -->
+        <repository>
+            <id>sonarsource</id>
+            <url>https://maven.sonarsource.com</url>
+        </repository>
+    </repositories>
 
 </project>
