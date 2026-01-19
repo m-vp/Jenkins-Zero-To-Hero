@@ -7,11 +7,31 @@ pipeline {
   }
   stages {
     stage('Checkout') {
-      steps {
-        sh 'echo Checkout stage passed'
-        git branch: 'main', url: 'https://github.com/m-vp/Jenkins-Zero-To-Hero.git'
-      }
-    }
+            steps {
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/main']],
+                    userRemoteConfigs: [[
+                        url: 'https://github.com/m-vp/Jenkins-Zero-To-Hero',
+                        credentialsId: 'github'  // Ensure GitHub credentials are configured
+                    ]],
+                    extensions: [
+                        [$class: 'WipeWorkspace'],  // Clean workspace before checkout
+                        [$class: 'CleanBeforeCheckout'], // Clean untracked files
+                        [$class: 'CloneOption',
+                            shallow: true,  // Shallow clone for efficiency
+                            depth: 1
+                        ]
+                    ]
+                ])
+            }
+        }
+
+        stage('Debug Workspace') {
+            steps {
+                sh 'ls -ld .git'  // Verify permissions for .git directory
+            }
+        }
     stage('Build and Test') {
       steps {
         sh 'ls -ltr'
